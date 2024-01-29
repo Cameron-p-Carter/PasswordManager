@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome, {{ user.getUserName() }}!</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Site Name</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for site in user.getSites() %}
+                    <tr>
+                        <td>{{ site.getSiteName() }}</td>
+                        <td>{{ site.getSiteUsername() }}</td>
+                        <td>{{ site.getSitePassword() }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button id="toggleForm">Add Site</button>
+
+        <!-- initially hidden -->
+        <form id="addSiteForm" action="{{ url_for('dashboard') }}" method="post" style="display: none;">
+            <label for="site_name">Site Name:</label>
+            <input type="text" id="site_name" name="site_name" required>
+            <label for="site_user_name">Username:</label>
+            <input type="text" id="site_user_name" name="site_user_name" required>
+            <label for="site_password">Password:</label>
+            <input type="password" id="site_password" name="site_password" required>
+            <button type="submit" style="background-color: #3498db; color: #fff;">Confirm</button>
+        </form>
+
+        <p><a href="{{ url_for('index') }}">Back to Login</a></p>
+    </div>
+
+    <script>
+        // JS that toggles visibility of the form
+        document.getElementById('toggleForm').addEventListener('click', function() {
+            var form = document.getElementById('addSiteForm');
+            form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>
